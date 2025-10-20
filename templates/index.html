@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SafeCrypt Web</title>
+    <!-- Font Awesome v6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-...YOUR_HASH..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2>SafeCrypt</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required><br><br>
+        <input type="password" name="password" placeholder="Enter Password" required><br><br>
+        <select name="action">
+            <option value="encrypt">Encrypt</option>
+            <option value="decrypt">Decrypt</option>
+        </select><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <footer>
+        <p>Connect with me:</p>
+        <a href="https://www.instagram.com/saikumar_uthkar/" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://github.com/UTHKARSAI" target="_blank">
+            <i class="fab fa-github"></i>
+        </a> 
+        <a href="mailto:uthkarsai@gmail.com" target="_blank" title="Email Me">
+        <i class="fas fa-envelope"></i></a>
+
+        <p>&copy; 2025 UTHKAR SAI KUMAR</p>
+    </footer>
+</body>
+</html>
