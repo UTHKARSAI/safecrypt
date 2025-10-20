@@ -2,5 +2,4 @@ Flask==2.3.2
 pycryptodome==3.23.0
 Flask==2.3.2
 pycryptodome
-...
 gunicorn
