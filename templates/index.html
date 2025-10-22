@@ -4,14 +4,57 @@
     <title>SafeCrypt Web</title>
     
     <!-- Font Awesome v6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-...YOUR_HASH..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* Button Styling with Animation */
+        /* ==== BACKGROUND ANIMATION ==== */
+        body {
+            font-family: 'Montserrat', 'Roboto', sans-serif;
+            background: linear-gradient(-45deg, #000000, #003300);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            color: #00ff00;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: transparent;
+        }
+
+        h2, form, footer, #howToUseBtn, #howToUseBox {
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+        }
+
+        /* ==== BUTTON STYLE ==== */
         #howToUseBtn {
-            background-color: #4CAF50;
+            background-color: #00aa00;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -23,7 +66,7 @@
         }
 
         #howToUseBtn:hover {
-            background-color: #45a049;
+            background-color: #00cc00;
             transform: scale(1.05);
         }
 
@@ -31,23 +74,68 @@
             transform: scale(0.97);
         }
 
-        /* Instruction Box with Animation */
+        /* ==== INSTRUCTIONS BOX ==== */
         #howToUseBox {
             overflow: hidden;
             max-height: 0;
             opacity: 0;
             transition: max-height 0.5s ease, opacity 0.5s ease;
-            border: 1px solid #ccc;
+            border: 1px solid #00ff00;
             padding: 0 15px;
-            background-color: #f9f9f9;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #00ff00;
             margin-top: 10px;
             border-radius: 5px;
         }
 
         #howToUseBox.show {
-            max-height: 300px; /* Adjust if your content is longer */
+            max-height: 300px;
             opacity: 1;
             padding: 15px;
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #00ff00;
+            text-align: center;
+            color: #00ff00;
+        }
+
+        input, select {
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            background-color: black;
+            color: #00ff00;
+        }
+
+        input[type="submit"] {
+            background-color: #00aa00;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00cc00;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #00ff00;
+        }
+
+        footer a {
+            color: #00ff00;
+            margin: 0 8px;
+            font-size: 20px;
+        }
+
+        footer a:hover {
+            color: #00cc00;
         }
     </style>
 
@@ -59,6 +147,8 @@
     </script>
 </head>
 <body>
+    <canvas id="matrix"></canvas>
+
     <h2>SafeCrypt</h2>
 
     <button id="howToUseBtn" onclick="toggleInstructions()">How to use this web app</button>
@@ -66,35 +156,66 @@
         <p>
             1. <strong>Select a file</strong> you want to encrypt or decrypt.<br>
             2. <strong>Create a password</strong> (used for both encryption and decryption).<br>
-            3. Choose <strong>Encrypt</strong> or <strong>Decrypt</strong> from the dropdown.<br>
+            3. Choose <strong>Encrypt</strong> or <strong>Decrypt</strong>.<br>
             4. Click <strong>Submit</strong>.<br><br>
-            <em>Note:</em> Encrypted files will not open unless decrypted with the <strong>exact same password</strong>.
+            <em>Note:</em> Encrypted files will only open with the <strong>exact same password</strong>.
         </p>
     </div>
 
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" required><br><br>
-        <input type="password" name="password" placeholder="Create your Password" required><br><br>
+        <input type="file" name="file" required><br>
+        <input type="password" name="password" placeholder="Create your Password" required><br>
         <select name="action">
             <option value="encrypt">Encrypt</option>
             <option value="decrypt">Decrypt</option>
-        </select><br><br>
+        </select><br>
         <input type="submit" value="Submit">
     </form>
 
     <footer>
         <p>Connect with me:</p>
-        <a href="https://www.instagram.com/saikumar_uthkar/" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://github.com/UTHKARSAI" target="_blank">
-            <i class="fab fa-github"></i>
-        </a> 
-        <a href="mailto:uthkarsai@gmail.com" target="_blank" title="Email Me">
-            <i class="fas fa-envelope"></i>
-        </a>
-
+        <a href="https://www.instagram.com/saikumar_uthkar/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/UTHKARSAI" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:uthkarsai@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
         <p>&copy; 2025 UTHKAR SAI KUMAR</p>
     </footer>
+
+    <script>
+        // ==== MATRIX BINARY BACKGROUND ====
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const binary = '01';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00FF00';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = binary.charAt(Math.floor(Math.random() * binary.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 33);
+
+        // Resize canvas when window size changes
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
