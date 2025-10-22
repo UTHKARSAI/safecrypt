@@ -9,6 +9,15 @@
 </head>
 <body>
     <h2>SafeCrypt</h2>
+    <button id="howToUseBtn" onclick="toggleInstructions()">How to use this web app</button>
+    <div id="howToUseBox">
+        <p>
+            1. <strong>Select a file</strong> you want to encrypt or decrypt.<br>
+            2. <strong>Create a password</strong> (used for both encryption and decryption).<br>
+            3. Choose <strong>Encrypt</strong> or <strong>Decrypt</strong> from the dropdown.<br>
+            4. Click <strong>Submit</strong>.<br><br>
+            <em>Note:</em> Encrypted files will not open unless decrypted with the <strong>exact same password</strong>.
+        </p>
     <form method="POST" enctype="multipart/form-data">
         <input type="file" name="file" required><br><br>
         <input type="password" name="password" placeholder="Create your Password" required><br><br>
