@@ -6,8 +6,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-...YOUR_HASH..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+     <script>
+        function toggleInstructions() {
+            const box = document.getElementById("howToUseBox");
+            box.style.display = (box.style.display === "none") ? "block" : "none";
+        }
+    </script>
 </head>
 <body>
+    
     <h2>SafeCrypt</h2>
     <button id="howToUseBtn" onclick="toggleInstructions()">How to use this web app</button>
     <div id="howToUseBox">
@@ -16,7 +24,7 @@
             2. <strong>Create a password</strong> (used for both encryption and decryption).<br>
             3. Choose <strong>Encrypt</strong> or <strong>Decrypt</strong> from the dropdown.<br>
             4. Click <strong>Submit</strong>.<br><br>
-            <em>Note:</em> Encrypted files will not open unless decrypted with the <strong>exact same password</strong>.
+            <em>Note:</em> Encrypted files will not open unless decrypted with the <strong>exact same password</strong>
         </p>
     <form method="POST" enctype="multipart/form-data">
         <input type="file" name="file" required><br><br>
