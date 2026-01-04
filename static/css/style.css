@@ -51,20 +51,31 @@ h2 {
 input[type="file"],
 input[type="password"],
 select {
-    width: 100%;
-    padding: 14px 18px;
-    margin: 15px 0;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    font-size: 16px;
+    background: linear-gradient(45deg, #1f4037, #99f2c8);
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
     transition: all 0.4s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 input[type="file"]:hover,
 input[type="password"]:hover,
 select:hover {
-    border-color: #2575fc;
-    box-shadow: 0 0 15px rgba(37,117,252,0.3);
+    background: linear-gradient(45deg, #1f4037, #99f2c8);
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 /* Submit button */
