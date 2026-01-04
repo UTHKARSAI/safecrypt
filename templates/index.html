@@ -1,115 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>SafeCrypt Web</title>
-    
-    <!-- Font Awesome v6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- External CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* ==== BACKGROUND ANIMATION ==== */
+        /* ================= VIDEO BACKGROUND ================= */
+        #bg-video {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* ================= PAGE BASE ================= */
         body {
             font-family: 'Montserrat', 'Roboto', sans-serif;
-            background: linear-gradient(-45deg, #000000, #003300);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            margin: 0;
             min-height: 100vh;
+            overflow: hidden;
+            color: #00ff00;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            overflow: hidden;
-            color: #00ff00;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background: transparent;
-        }
-
-        h2, form, footer, #howToUseBtn, #howToUseBox {
+        body > * {
             position: relative;
             z-index: 1;
         }
 
         h2 {
             font-size: 2em;
-            color: #00ff00;
             text-shadow: 0 0 15px #00ff00;
         }
 
-        /* ==== BUTTON STYLE ==== */
-        #howToUseBtn {
-            background-color: #00aa00;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-            font-size: 16px;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-            border-radius: 5px;
-        }
-
-        #howToUseBtn:hover {
-            background-color: #00cc00;
-            transform: scale(1.05);
-        }
-
-        #howToUseBtn:active {
-            transform: scale(0.97);
-        }
-
-        /* ==== INSTRUCTIONS BOX ==== */
-        #howToUseBox {
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transition: max-height 0.5s ease, opacity 0.5s ease;
-            border: 1px solid #00ff00;
-            padding: 0 15px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #00ff00;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-
-        #howToUseBox.show {
-            max-height: 300px;
-            opacity: 1;
-            padding: 15px;
-        }
-
+        /* ================= FORM ================= */
         form {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.65);
             padding: 20px;
             border-radius: 10px;
             border: 1px solid #00ff00;
             text-align: center;
-            color: #00ff00;
         }
 
         input, select {
-            padding: 18px 14px;
+            padding: 14px;
             margin: 8px 0;
             border-radius: 5px;
             border: 1px solid #00ff00;
             background-color: black;
             color: #00ff00;
+            width: 100%;
         }
 
         input[type="submit"] {
@@ -122,10 +75,39 @@
             background-color: #00cc00;
         }
 
+        /* ================= BUTTON ================= */
+        #howToUseBtn {
+            background-color: #00aa00;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #howToUseBox {
+            max-width: 400px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: 0.5s;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+            padding: 0 15px;
+        }
+
+        #howToUseBox.show {
+            max-height: 300px;
+            opacity: 1;
+            padding: 15px;
+        }
+
         footer {
-            text-align: center;
             margin-top: 20px;
-            color: #00ff00;
+            text-align: center;
         }
 
         footer a {
@@ -141,34 +123,39 @@
 
     <script>
         function toggleInstructions() {
-            const box = document.getElementById("howToUseBox");
-            box.classList.toggle("show");
+            document.getElementById("howToUseBox").classList.toggle("show");
         }
     </script>
 </head>
+
 <body>
-    <canvas id="matrix"></canvas>
+
+    <!-- VIDEO BACKGROUND -->
+    <video autoplay muted loop playsinline preload="auto" id="bg-video">
+        <source src="https://safecrypt-backgroundvideo.s3.ap-south-1.amazonaws.com/background.mp4" type="video/mp4">
+    </video>
 
     <h2>SafeCrypt</h2>
 
     <button id="howToUseBtn" onclick="toggleInstructions()">How to use this web app</button>
+
     <div id="howToUseBox">
         <p>
-            1. <strong>Select a file</strong> you want to encrypt or decrypt.<br>
-            2. <strong>Create a password</strong> (used for both encryption and decryption).<br>
-            3. Choose <strong>Encrypt</strong> or <strong>Decrypt</strong>.<br>
-            4. Click <strong>Submit</strong>.<br><br>
-            <em>Note:</em> Encrypted files will only open with the <strong>exact same password</strong>.
+            1. Select a file to encrypt or decrypt.<br>
+            2. Create a password.<br>
+            3. Choose Encrypt or Decrypt.<br>
+            4. Submit the form.<br><br>
+            <strong>Note:</strong> Same password is required for decryption.
         </p>
     </div>
 
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" required><br>
-        <input type="password" name="password" placeholder="Create your Password" required><br>
+        <input type="file" name="file" required>
+        <input type="password" name="password" placeholder="Create your Password" required>
         <select name="action">
             <option value="encrypt">Encrypt</option>
             <option value="decrypt">Decrypt</option>
-        </select><br>
+        </select>
         <input type="submit" value="Submit">
     </form>
 
@@ -176,46 +163,9 @@
         <p>Connect with me:</p>
         <a href="https://www.instagram.com/saikumar_uthkar/" target="_blank"><i class="fab fa-instagram"></i></a>
         <a href="https://github.com/UTHKARSAI" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="mailto:uthkarsai@gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+        <a href="mailto:uthkarsai@gmail.com"><i class="fas fa-envelope"></i></a>
         <p>&copy; 2025 UTHKAR SAI KUMAR</p>
     </footer>
 
-    <script>
-        // ==== MATRIX BINARY BACKGROUND ====
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const binary = '01';
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00FF00';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = binary.charAt(Math.floor(Math.random() * binary.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-        setInterval(draw, 33);
-
-        // Resize canvas when window size changes
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
 </body>
 </html>
